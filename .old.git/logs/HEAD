@@ -1,7 +1,0 @@
-0000000000000000000000000000000000000000 c46888ac84141ad554568c2e1f2523f5695cbd9d Dev C-512L <dev.c512l@gmail.com> 1622568253 +0200	commit (initial): Initial commit
-c46888ac84141ad554568c2e1f2523f5695cbd9d b03e7b716bd3f38e3fea8e9cb9cebfa6bd7bb624 Dev C-512L <dev.c512l@gmail.com> 1622803796 +0200	commit: Create Models
-b03e7b716bd3f38e3fea8e9cb9cebfa6bd7bb624 7b9394ea5f24643df324444781c6e6dca9507def Dev C-512L <dev.c512l@gmail.com> 1622803850 +0200	commit: Allow http on Android 11
-7b9394ea5f24643df324444781c6e6dca9507def 097329e1f58c9fed9ccd01772a864968bef1d9c2 Dev C-512L <dev.c512l@gmail.com> 1622803871 +0200	commit: Internet Permission
-097329e1f58c9fed9ccd01772a864968bef1d9c2 138e5c200a78292f289061d8a0216abe2d148734 Dev C-512L <dev.c512l@gmail.com> 1622803949 +0200	commit: Add depencencies
-138e5c200a78292f289061d8a0216abe2d148734 493e0a672934a511f163022d614400b5d31bd591 Dev C-512L <dev.c512l@gmail.com> 1622803984 +0200	commit: Remove jcenter() (Shutdown repository)
-493e0a672934a511f163022d614400b5d31bd591 cd201a6f64cd3f8bfb5da64d22f4a90412d770c3 Dev C-512L <dev.c512l@gmail.com> 1622804033 +0200	commit: Basic login request working
