@@ -1,9 +1,9 @@
-package com.iqueueteam.i_queue.entry.IQueue.Repository
+package com.iqueueteam.i_queue.entry.iqueue.repository
 
-import com.iqueueteam.i_queue.entry.IQueue.Models.IQCommerce
-import com.iqueueteam.i_queue.entry.IQueue.Models.IQResponse
-import com.iqueueteam.i_queue.entry.IQueue.Models.IQUser
-import com.iqueueteam.i_queue.entry.IQueue.Models.IQValidationError
+import com.iqueueteam.i_queue.entry.iqueue.models.IQCommerce
+import com.iqueueteam.i_queue.entry.iqueue.models.IQResponse
+import com.iqueueteam.i_queue.entry.iqueue.models.IQUser
+import com.iqueueteam.i_queue.entry.iqueue.models.IQValidationError
 import retrofit2.Response
 import retrofit2.http.*
 

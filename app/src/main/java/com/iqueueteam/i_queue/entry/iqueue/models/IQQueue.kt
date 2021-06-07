@@ -1,4 +1,4 @@
-package com.iqueueteam.i_queue.entry.IQueue.Models
+package com.iqueueteam.i_queue.entry.iqueue.models
 
 data class IQQueue (
     val id:Int,

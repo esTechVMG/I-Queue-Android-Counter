@@ -1,4 +1,4 @@
-package com.iqueueteam.i_queue.entry.IQueue.Repository
+package com.iqueueteam.i_queue.entry.iqueue.repository
 
 class LoginUser(
     var email:String,

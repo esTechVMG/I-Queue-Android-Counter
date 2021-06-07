@@ -1,7 +1,6 @@
-package com.iqueueteam.i_queue.entry.IQueue.Repository
+package com.iqueueteam.i_queue.entry.iqueue.repository
 
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +16,7 @@ object IQueueAdapter {
     val apiClient:IQueueService = Retrofit.Builder().baseUrl("http://10.0.2.2/api/").client(e)
         .addConverterFactory(GsonConverterFactory.create()).build()
         .create(IQueueService::class.java)
-    public fun <T> getResponse(response: Response<T>): T? {
+    fun <T> getResponse(response: Response<T>): T? {
         if (response.isSuccessful){
             return response.body()
         }else{
