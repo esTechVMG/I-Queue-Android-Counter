@@ -1,20 +1,18 @@
 package com.iqueueteam.i_queue.entry
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.iqueueteam.i_queue.entry.IQueue.Models.IQResponse
-import com.iqueueteam.i_queue.entry.IQueue.Models.IQUser
-import com.iqueueteam.i_queue.entry.IQueue.Models.IQValidationError
-import com.iqueueteam.i_queue.entry.IQueue.Repository.IQueueAdapter
-import com.iqueueteam.i_queue.entry.IQueue.Repository.IQueueAdapter.apiClient
-import com.iqueueteam.i_queue.entry.IQueue.Repository.LoginUser
+import com.iqueueteam.i_queue.entry.iqueue.models.IQResponse
+import com.iqueueteam.i_queue.entry.iqueue.models.IQUser
+import com.iqueueteam.i_queue.entry.iqueue.models.IQValidationError
+import com.iqueueteam.i_queue.entry.iqueue.repository.IQueueAdapter
+import com.iqueueteam.i_queue.entry.iqueue.repository.IQueueAdapter.apiClient
+import com.iqueueteam.i_queue.entry.iqueue.repository.LoginUser
 import kotlinx.coroutines.*
-import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
@@ -25,10 +23,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         Log.d("I-Queue", "Build Type: ${BuildConfig.BUILD_TYPE}")
         sendButton = findViewById(R.id.send_button)
         sendButton.setOnClickListener {
-
+            login()
         }
     }
-    fun re(){
+    fun login(){
         launch(Dispatchers.IO) {
             // Try catch block to handle exceptions when calling the API.
             try {
@@ -45,14 +43,15 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     }
                 }
             } catch (e: Exception){
-                launch(Dispatchers.Main) {
-                    // Show API error.
-                    Toast.makeText(this@MainActivity,
-                        "Error Occurred: ${e.message}",
-                        Toast.LENGTH_LONG).show()
-                    Log.d("Error Occurred:", "${e.message}")
-                }
+                toastError(e,this@MainActivity)
             }
+        }
+    }
+    fun toastError(e:Exception,context: Context){
+        launch(Dispatchers.Main) {
+            Toast.makeText(context, getString(R.string.error_connecting_server), Toast.LENGTH_LONG).show()
+            Log.d("Error Occurred:", "${e.message}")
+            e.printStackTrace()
         }
     }
 }

@@ -4,4 +4,5 @@
     <string name="sign_in_button">Iniciar sesion</string>
     <string name="email_hint">E-Mail</string>
     <string name="password_hint">Contraseña</string>
+    <string name="error_connecting_server">No se pudo conectar con el servidor</string>
 </resources>
