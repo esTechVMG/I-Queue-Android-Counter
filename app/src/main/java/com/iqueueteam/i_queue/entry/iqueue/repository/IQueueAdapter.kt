@@ -12,10 +12,21 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object IQueueAdapter {
-    var e = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)).build()
-    val apiClient:IQueueService = Retrofit.Builder().baseUrl("http://10.0.2.2/api/").client(e)
-        .addConverterFactory(GsonConverterFactory.create()).build()
+    val gsonFactory = GsonConverterFactory.create()
+    var loggingLevel:HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
+    val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor(
+            HttpLoggingInterceptor()
+            .setLevel(loggingLevel)
+        )
+        .build()
+    val apiClient:IQueueService = Retrofit.Builder()
+        .baseUrl("http://10.0.2.2/api/")
+        .client(okHttpClient)
+        .addConverterFactory(gsonFactory)
+        .build()
         .create(IQueueService::class.java)
+
     fun <T> getResponse(response: Response<T>): T? {
         if (response.isSuccessful){
             return response.body()
