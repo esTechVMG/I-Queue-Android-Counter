@@ -12,10 +12,10 @@ class SharedPreferencesGson(
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("objects",Context.MODE_PRIVATE)
 ) {
     private val gson:Gson = Gson();
-    fun <T : Any> getObjectFromSharedPref(objectType:KClass<T>,key:String){
+    fun <T : Any> getObjectFromSharedPref(objectType:KClass<T>,key:String):T{
         val stringToParse: String? = sharedPreferences.getString(key,"")
         val objectToReturn = gson.fromJson(stringToParse,objectType.java)
-        objectToReturn.let {
+        return objectToReturn.let {
             return@let it
         } ?: kotlin.run {
             throw Exception("Could Not Parse Object")
