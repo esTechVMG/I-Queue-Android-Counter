@@ -21,7 +21,7 @@ class SharedPreferencesGson(
             throw Exception("Could Not Parse Object")
         }
     }
-    fun <T : Any> setObjectToSharedPref(objectToParse:T, key:String){
+    fun <T> setObjectToSharedPref(objectToParse:T, key:String){
         val stringToStore:String = gson.toJson(objectToParse);
         sharedPreferences.edit {
             this.putString(key,stringToStore)

@@ -59,8 +59,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     body.code in 200..299 -> {
                         Log.d("Request","Request Code:${body.code}")
                         val user:IQUser = body.data ?: throw Exception("Failed to retrieve user from login Request")
-                        if(body.data!!.role == IQUser.Role.ADMIN){
-                            sharedPreferencesGson.setObjectToSharedPref(body.data!!,getString(R.string.user_info_storage));
+                        if(user.role == IQUser.Role.ADMIN){
+                            sharedPreferencesGson.setObjectToSharedPref(user,getString(R.string.user_info_storage));
                             Log.d(getString(R.string.app_name),"User Logged In successfully")
                             //TODO request commerce and pass to next screen if convenient
                         }else{
