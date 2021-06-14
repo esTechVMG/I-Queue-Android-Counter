@@ -2,6 +2,7 @@ package com.iqueueteam.i_queue.entry.iqueue.repository
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.iqueueteam.i_queue.entry.BuildConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,16 +13,23 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object IQueueAdapter {
-    val gsonFactory = GsonConverterFactory.create()
-    var loggingLevel:HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY
-    val okHttpClient = OkHttpClient.Builder()
+    const val baseUrl:String = "http://10.0.2.2/api/"
+    private val gsonFactory: GsonConverterFactory = GsonConverterFactory.create()
+    var loggingLevel:()->(HttpLoggingInterceptor.Level) = {
+        if(BuildConfig.DEBUG) {
+            HttpLoggingInterceptor.Level.BODY
+        }else{
+            HttpLoggingInterceptor.Level.NONE
+        }
+    }
+    private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(
             HttpLoggingInterceptor()
-            .setLevel(loggingLevel)
+            .setLevel(loggingLevel())
         )
         .build()
     val apiClient:IQueueService = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2/api/")
+        .baseUrl(baseUrl)
         .client(okHttpClient)
         .addConverterFactory(gsonFactory)
         .build()
