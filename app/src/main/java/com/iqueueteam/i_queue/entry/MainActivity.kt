@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.iqueueteam.i_queue.entry.config_storage.SharedPreferencesGson
 import com.iqueueteam.i_queue.entry.databinding.ActivityMainBinding
@@ -20,13 +21,20 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var sharedPreferencesGson:SharedPreferencesGson
+    private lateinit var alertDialogBuilder:AlertDialog.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(getString(R.string.app_name), "Build Type: ${BuildConfig.BUILD_TYPE}")
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //late initialization
         sharedPreferencesGson = SharedPreferencesGson(this)
-        Log.d("I-Queue", "Build Type: ${BuildConfig.BUILD_TYPE}")
+        alertDialogBuilder = AlertDialog.Builder(this)
+
+        //Try to retrieve user object from SharedPreference
         try {
             val iqUser:IQUser = sharedPreferencesGson.getObjectFromSharedPref(IQUser::class,getString(R.string.user_info_storage))
             Log.d(getString(R.string.app_name),"Login Credentials retreived. Trying to get commerce and queue info from server")
@@ -54,10 +62,16 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                         if(body.data!!.role == IQUser.Role.ADMIN){
                             sharedPreferencesGson.setObjectToSharedPref(body.data!!,getString(R.string.user_info_storage));
                             Log.d(getString(R.string.app_name),"User Logged In successfully")
-
+                            //TODO request commerce and pass to next screen if convenient
                         }else{
-                            Log.d(getString(R.string.app_name),"User logged in but its not and admin user")
+                            Log.d(getString(R.string.app_name),"Error: ${getString(R.string.user_not_admin)}")
                             //TODO Make a popup saying that is not an admin user
+                            alertDialogBuilder
+                                .setTitle(R.string.error_title)
+                                .setMessage(R.string.user_not_admin)
+                                .setNeutralButton(R.string.button_accept,null)
+                                .setCancelable(true)
+                                .create().show()
                         }
                     }
                     else -> {
