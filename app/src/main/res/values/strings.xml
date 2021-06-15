@@ -1,6 +1,4 @@
-<!DOCTYPE resources [
-<!ENTITY app_name "I-Queue Entry">
-]>
+<!DOCTYPE resources [<!ENTITY app_name "I-Queue Entry">]>
 <resources>
     <string name="app_name">&app_name;</string>
     <!-- App components and messages -->

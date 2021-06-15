@@ -6,14 +6,22 @@ import com.iqueueteam.i_queue.entry.BuildConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 object IQueueAdapter {
     const val baseUrl:String = "http://10.0.2.2/api/"
+    internal var token:String? = null
+        get() = field
+        set(value) {
+            field = value
+        }
     private val gsonFactory: GsonConverterFactory = GsonConverterFactory.create()
     var loggingLevel:()->(HttpLoggingInterceptor.Level) = {
         if(BuildConfig.DEBUG) {
@@ -26,8 +34,19 @@ object IQueueAdapter {
         .addInterceptor(
             HttpLoggingInterceptor()
             .setLevel(loggingLevel())
-        )
+        ).addInterceptor(Interceptor { chain ->
+            if (token != null){
+                val newRequest: Request = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer $token")
+                    .build()
+                return@Interceptor chain.proceed(newRequest)
+            }else{
+                return@Interceptor chain.proceed(chain.request())
+            }
+        })
         .build()
+
+
     val apiClient:IQueueService = Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(okHttpClient)
