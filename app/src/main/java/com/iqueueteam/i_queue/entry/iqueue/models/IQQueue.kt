@@ -1,5 +1,8 @@
 package com.iqueueteam.i_queue.entry.iqueue.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class IQQueue (
     val id:Int,
     val fixed_capacity:Int,
@@ -8,7 +11,6 @@ data class IQQueue (
     val password_verification:String,
     //val created_at:Date,
     //val updated_at:Date,
-    //val commerce_id:Int,
+    val commerce_id:Int,
         ){
-
 }

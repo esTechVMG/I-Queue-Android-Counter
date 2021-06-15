@@ -13,6 +13,6 @@ data class IQCommerce (
     val image:String,
     //var created_at:Date,
     //var updated_at:Date,
-    val queue:IQQueue,
+    val queueInfo:IQQueue,
     ){
 }
