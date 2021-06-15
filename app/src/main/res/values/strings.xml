@@ -8,14 +8,15 @@
     <string name="sign_in_button">Iniciar sesion</string>
     <string name="email_hint">E-Mail de Administrador</string>
     <string name="password_hint">Contraseña</string>
+    <string name="button_accept">Aceptar</string>
     <!-- Errors -->
+    <string name="invalid_email">"Por favor introduce un email válido"</string>
+    <string name="password_length">La contraseña debe tener 4 caracteres minimo</string>
     <string name="user_not_admin">El usuario en cuestion no es un administrador</string>
     <string name="error_title">Error</string>
-    <string name="button_accept">Aceptar</string>
     <string name="error_connecting_server">No se pudo conectar con el servidor</string>
     <string name="error_unexpected_error">Error inesperado en la aplicacion</string>
     <!--Properties regarding storage of objects-->
     <string name="user_info_storage">J8j0NnaerPLK3</string>
     <string name="commerce_info_storage">jms)Jnj23h7DF3Ko</string>
-
 </resources>
