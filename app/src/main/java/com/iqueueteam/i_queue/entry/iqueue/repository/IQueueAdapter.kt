@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object IQueueAdapter {
-    const val baseUrl:String = "http://10.0.2.2/api/"
+    const val baseUrl:String = "http://10.144.110.119/i-Queue-BackEnd/public/api/"
     internal var token:String? = null
         get() = field
         set(value) {
