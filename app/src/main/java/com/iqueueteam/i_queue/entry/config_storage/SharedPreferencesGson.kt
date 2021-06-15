@@ -8,10 +8,10 @@ import java.lang.Exception
 import kotlin.reflect.KClass
 
 class SharedPreferencesGson(
-    val context: Context,
+    private val context: Context,
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("objects",Context.MODE_PRIVATE)
 ) {
-    private val gson:Gson = Gson();
+    private val gson:Gson = Gson()
     fun <T : Any> getObjectFromSharedPref(objectType:KClass<T>,key:String):T{
         val stringToParse: String? = sharedPreferences.getString(key,"")
         val objectToReturn = gson.fromJson(stringToParse,objectType.java)
@@ -22,7 +22,7 @@ class SharedPreferencesGson(
         }
     }
     fun <T> setObjectToSharedPref(objectToParse:T, key:String){
-        val stringToStore:String = gson.toJson(objectToParse);
+        val stringToStore:String = gson.toJson(objectToParse)
         sharedPreferences.edit {
             this.putString(key,stringToStore)
             apply()
