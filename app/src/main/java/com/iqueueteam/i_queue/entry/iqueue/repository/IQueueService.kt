@@ -15,6 +15,6 @@ interface IQueueService {
     @POST("login")
     suspend  fun doLogin(@Body user: LoginUser): Response<IQResponse<IQUser?,IQValidationError?>>
 
-    @GET("user/{userId}/commerce")
+    @GET("users/{userId}/commerce")
     suspend fun getCommerce(@Path("userId") userId:Int): Response<IQResponse<IQCommerce,Any?>>
 }
