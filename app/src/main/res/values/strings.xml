@@ -2,6 +2,7 @@
 <resources>
     <string name="main_name">&name; Inc</string>
     <string name="app_name">&name; Entry</string>
+    <string name="logo_description">Logo de &name;</string>
     <!-- App components and messages -->
     <string name="welcome_message">Bienvenido a &name;</string>
     <string name="sign_in_button">Iniciar sesion</string>
