@@ -29,7 +29,7 @@ class EntryActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         sharedPreferencesGson = SharedPreferencesGson(baseContext)
         val commerce = sharedPreferencesGson.getObjectFromSharedPref(IQCommerce::class,getString(R.string.commerce_info_storage))
         val queueString = gson.toJson(commerce.queueInfo)
-        binding.qrImageView.setImageBitmap(textToQrBitmap(queueString,1024,1024))
+        binding.qrImageView.setImageBitmap(textToQrBitmap(queueString,2048,2048))
     }
 
     override fun onBackPressed() {
