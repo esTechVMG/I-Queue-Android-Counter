@@ -17,7 +17,7 @@ class StartupActivity : AppCompatActivity() {
         //If for some reason we come from other activity close the app
         if (intent.getBooleanExtra("EXIT", false)) finish()
 
-        sharedPreferencesGson = SharedPreferencesGson(this)
+        sharedPreferencesGson = SharedPreferencesGson(baseContext)
         var intent:Intent?
         //Try to retrieve user object from SharedPreference
         try {

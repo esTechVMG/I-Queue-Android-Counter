@@ -41,8 +41,8 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             return@addValidation input.length >= 4
         },getString(R.string.password_length))
         //late initialization
-        sharedPreferencesGson = SharedPreferencesGson(this)
-        alertDialogBuilder = AlertDialog.Builder(this)
+        sharedPreferencesGson = SharedPreferencesGson(baseContext)
+        alertDialogBuilder = AlertDialog.Builder(baseContext)
 
         binding.sendButton.setOnClickListener {
             if (mAwesomeValidation.validate()){
@@ -60,10 +60,11 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                                 Log.d(baseContext.getString(R.string.app_name),"User Logged In successfully")
                                 retrieveCommerce(
                                     it,
-                                    this@LoginActivity,
+                                    baseContext,
                                     onSuccess = {commerce ->
-                                        sharedPreferencesGson.setObjectToSharedPref(commerce,this@LoginActivity.getString(R.string.commerce_info_storage))
+                                        sharedPreferencesGson.setObjectToSharedPref(commerce,baseContext.getString(R.string.commerce_info_storage))
                                         //TODO Go back to startup activity
+                                        goBackToStartupActivity(baseContext)
                                     },
                                     onFailure = {
                                         //We don t do anything on failure
@@ -82,10 +83,6 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     override fun onBackPressed() {
-        val intent = Intent(this@LoginActivity, StartupActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        intent.putExtra("EXIT", true)
-        startActivity(intent)
+        goBackToStartupActivity(baseContext)
     }
-
 }
