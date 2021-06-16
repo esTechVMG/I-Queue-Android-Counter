@@ -1,6 +1,5 @@
 package com.iqueueteam.i_queue.entry
 
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -12,9 +11,14 @@ import com.google.zxing.common.BitMatrix
 import com.iqueueteam.i_queue.entry.config_storage.SharedPreferencesGson
 import com.iqueueteam.i_queue.entry.databinding.ActivityEntryBinding
 import com.iqueueteam.i_queue.entry.iqueue.models.IQCommerce
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import java.util.*
 
 
-class EntryActivity : AppCompatActivity() {
+class EntryActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     val gson:Gson = Gson()
     lateinit var sharedPreferencesGson:SharedPreferencesGson
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +32,7 @@ class EntryActivity : AppCompatActivity() {
     }
     @Throws(WriterException::class, NullPointerException::class)
     private fun textToImage(text: String, width: Int, height: Int): Bitmap? {
-        val bitMatrix: BitMatrix
-        bitMatrix = try {
+        val bitMatrix: BitMatrix = try {
             MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE,
                 width, height, null)
         } catch (Illegalargumentexception: IllegalArgumentException) {

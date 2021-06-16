@@ -4,6 +4,7 @@
     package="com.iqueueteam.i_queue.entry">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="androidx.multidex.MultiDexApplication"
         android:allowBackup="true"
@@ -14,8 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IQueueEntry"
         tools:targetApi="Q">
+        <activity android:name=".LoginActivity" />
         <activity android:name=".EntryActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".StartupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

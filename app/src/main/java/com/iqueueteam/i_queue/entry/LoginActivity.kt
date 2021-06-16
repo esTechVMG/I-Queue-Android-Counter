@@ -44,94 +44,48 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         sharedPreferencesGson = SharedPreferencesGson(this)
         alertDialogBuilder = AlertDialog.Builder(this)
 
-        //Try to retrieve user object from SharedPreference
-        try {
-            val iqUser:IQUser = sharedPreferencesGson.getObjectFromSharedPref(IQUser::class,getString(R.string.user_info_storage))
-            Log.d(getString(R.string.app_name),"Login Credentials retreived. Trying to get commerce and queue info from server")
-            retrieveCommerce(iqUser)
-
-        }catch (e:Exception){
-            Log.d(getString(R.string.app_name),"Could not retrieve user data")
-        }
         binding.sendButton.setOnClickListener {
             if (mAwesomeValidation.validate()){
-                login(
-                    binding.emailInputEditText.text.toString(),
-                    binding.passwordlInputEditText.text.toString()
-                )
-            }
-        }
-
-    }
-    private fun login(email:String,password:String){
-        launch(Dispatchers.IO) {
-            // Try catch block to handle exceptions when calling the API.
-            try {
-                val response = apiClient.doLogin(LoginUser( email,password))
-                val body:IQResponse<IQUser?,IQValidationError?> = IQueueAdapter.getResponse(response) ?: throw Exception(getString(R.string.error_connecting_server))
-                when (true){
-                    body.code in 200..299 -> {
-                        Log.d("Request","Request Code:${body.code}")
-                        val user:IQUser = body.data ?: throw Exception("Failed to retrieve user from login Request")
-                        if(user.role == IQUser.Role.ADMIN){
-                            sharedPreferencesGson.setObjectToSharedPref(user,getString(R.string.user_info_storage))
-                            Log.d(getString(R.string.app_name),"User Logged In successfully")
-                            retrieveCommerce(user)
-                        }else{
-                            Log.d(getString(R.string.app_name),"Error: ${getString(R.string.user_not_admin)}")
-                            alertDialogBuilder
-                                .setTitle(R.string.error_title)
-                                .setMessage(R.string.user_not_admin)
-                                .setNeutralButton(R.string.button_accept,null)
-                                .setCancelable(true)
-                                .create().show()
+                launch(Dispatchers.IO){
+                    login(
+                        binding.emailInputEditText.text.toString(),
+                        binding.passwordlInputEditText.text.toString(),
+                        baseContext,
+                        onFailure = {
+                            //We don t do anything on failure
+                        },
+                        onUserAdmin = {
+                            launch {
+                                sharedPreferencesGson.setObjectToSharedPref(it,baseContext.getString(R.string.user_info_storage))
+                                Log.d(baseContext.getString(R.string.app_name),"User Logged In successfully")
+                                retrieveCommerce(
+                                    it,
+                                    this@LoginActivity,
+                                    onSuccess = {commerce ->
+                                        sharedPreferencesGson.setObjectToSharedPref(commerce,this@LoginActivity.getString(R.string.commerce_info_storage))
+                                        //TODO Go back to startup activity
+                                    },
+                                    onFailure = {
+                                        //We don t do anything on failure
+                                    }
+                                )
+                            }
+                        },
+                        onUserNotAdmin = {
+                            //We don t do anything on failure
                         }
-                    }
-                    else -> {
-                        throw  Exception("Unexpected Error")
-                    }
-                }
-            } catch (e: Exception){
-                toastError(e,this@LoginActivity)
-            }
-        }
-    }
-
-    private fun retrieveCommerce(user:IQUser){
-            launch(Dispatchers.IO) {
-                IQueueAdapter.token = user.token
-                // Try catch block to handle exceptions when calling the API.
-                try {
-                    val response = apiClient.getCommerce(user.id)
-                    val body:IQResponse<IQCommerce, Any?> = IQueueAdapter.getResponse(response) ?: throw Exception(getString(R.string.error_connecting_server))
-                    when (true){
-                        body.code in 200..299 -> {
-                            Log.d("Request","Request Code:${body.code}")
-                            val commerce:IQCommerce = body.data ?: throw Exception("Failed to retrieve user from login Request")
-                            sharedPreferencesGson.setObjectToSharedPref(commerce,getString(R.string.commerce_info_storage))
-                            launchQrActivity()
-                        }
-                        else -> {
-                            throw  Exception("Unexpected Error")
-                        }
-                    }
-                } catch (e: Exception){
-                    toastError(e,this@LoginActivity)
+                    )
                 }
             }
         }
-    private fun toastError(e:Exception, context: Context){
-        launch(Dispatchers.Main) {
-            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
-            Log.d(getString(R.string.error_unexpected_error), "Error Occurred: ${e.message}")
-            e.printStackTrace()
-        }
+
     }
 
-    private fun launchQrActivity(){
-        val intent = Intent(baseContext, EntryActivity::class.java)
-        startActivity(intent);
+    override fun onBackPressed() {
+        val intent = Intent(this@LoginActivity, StartupActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        intent.putExtra("EXIT", true)
+        startActivity(intent)
     }
-
 
 }
