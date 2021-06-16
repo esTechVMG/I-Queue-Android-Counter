@@ -1,8 +1,15 @@
 package com.iqueueteam.i_queue.entry
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.MultiFormatWriter
+import com.google.zxing.WriterException
+import com.google.zxing.common.BitMatrix
 import com.iqueueteam.i_queue.entry.config_storage.SharedPreferencesGson
 import com.iqueueteam.i_queue.entry.iqueue.models.IQCommerce
 import com.iqueueteam.i_queue.entry.iqueue.models.IQResponse
@@ -76,4 +83,32 @@ suspend fun toastError(e:Exception, context: Context){
         Log.d(context.getString(R.string.error_unexpected_error), "Error Occurred: ${e.message}")
         e.printStackTrace()
     }
+}
+fun goBackToStartupActivity(context:Context){
+    val intent = Intent(context, StartupActivity::class.java)
+    intent.putExtra("EXIT", true)
+    context.startActivity(intent)
+}
+@Throws(WriterException::class, NullPointerException::class)
+fun textToQrBitmap(text: String, width: Int, height: Int): Bitmap? {
+    val bitMatrix: BitMatrix = try {
+        MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE,
+            width, height, null)
+    } catch (Illegalargumentexception: IllegalArgumentException) {
+        return null
+    }
+    val bitMatrixWidth = bitMatrix.width
+    val bitMatrixHeight = bitMatrix.height
+    val pixels = IntArray(bitMatrixWidth * bitMatrixHeight)
+    val colorWhite = -0x1
+    val colorBlack = -0x1000000
+    for (y in 0 until bitMatrixHeight) {
+        val offset = y * bitMatrixWidth
+        for (x in 0 until bitMatrixWidth) {
+            pixels[offset + x] = if (bitMatrix[x, y]) colorBlack else colorWhite
+        }
+    }
+    val bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444)
+    bitmap.setPixels(pixels, 0, width, 0, 0, bitMatrixWidth, bitMatrixHeight)
+    return bitmap
 }
