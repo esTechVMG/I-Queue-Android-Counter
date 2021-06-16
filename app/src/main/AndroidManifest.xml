@@ -15,9 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IQueueEntry"
         tools:targetApi="Q">
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".EntryActivity" />
-        <activity android:name=".StartupActivity">
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="landscape"
+            />
+        <activity
+            android:name=".EntryActivity"
+            android:screenOrientation="landscape"
+            />
+        <activity
+            android:name=".StartupActivity"
+            android:screenOrientation="landscape"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
