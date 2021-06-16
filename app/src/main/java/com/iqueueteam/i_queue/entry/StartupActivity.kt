@@ -14,11 +14,10 @@ class StartupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_startup)
-        //If for some reason we come from other activity close the app
-        if (intent.getBooleanExtra("EXIT", false)) finish()
+        checkStorage()
+    }
 
-        sharedPreferencesGson = SharedPreferencesGson(baseContext)
-        var intent:Intent?
+    fun checkStorage(){
         //Try to retrieve user object from SharedPreference
         try {
             val iqUser: IQUser = sharedPreferencesGson.getObjectFromSharedPref(IQUser::class,getString(R.string.user_info_storage))
@@ -32,5 +31,10 @@ class StartupActivity : AppCompatActivity() {
             intent = Intent(baseContext, LoginActivity::class.java)
         }
         startActivity(intent);
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkStorage()
     }
 }
