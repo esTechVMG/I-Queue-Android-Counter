@@ -34,6 +34,6 @@ class EntryActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        finish()
+        finishAffinity()
     }
 }

@@ -84,11 +84,7 @@ suspend fun toastError(e:Exception, context: Context){
         e.printStackTrace()
     }
 }
-fun goBackToStartupActivity(context:Context){
-    val intent = Intent(context, StartupActivity::class.java)
-    intent.putExtra("EXIT", true)
-    context.startActivity(intent)
-}
+
 @Throws(WriterException::class, NullPointerException::class)
 fun textToQrBitmap(text: String, width: Int, height: Int): Bitmap? {
     val bitMatrix: BitMatrix = try {
