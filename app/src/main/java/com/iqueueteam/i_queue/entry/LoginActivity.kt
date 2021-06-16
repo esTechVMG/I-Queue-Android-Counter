@@ -83,6 +83,6 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     override fun onBackPressed() {
-        goBackToStartupActivity(baseContext)
+        finish()
     }
 }

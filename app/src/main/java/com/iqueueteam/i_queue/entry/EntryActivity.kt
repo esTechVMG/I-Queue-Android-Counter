@@ -31,4 +31,9 @@ class EntryActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         val queueString = gson.toJson(commerce.queueInfo)
         binding.qrImageView.setImageBitmap(textToQrBitmap(queueString,1024,1024))
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
 }
