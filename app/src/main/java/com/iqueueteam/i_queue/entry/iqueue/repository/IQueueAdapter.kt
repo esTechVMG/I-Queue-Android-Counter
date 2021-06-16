@@ -16,13 +16,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object IQueueAdapter {
-    const val baseUrl:String = "http://10.144.110.119/i-Queue-BackEnd/public/api/"
+
     internal var token:String? = null
         get() = field
         set(value) {
             field = value
         }
     private val gsonFactory: GsonConverterFactory = GsonConverterFactory.create()
+    var baseUrl:String = if (BuildConfig.DEBUG)"http://10.0.2.2/api/" else "http://10.144.110.119/i-Queue-BackEnd/public/api/"
     var loggingLevel:()->(HttpLoggingInterceptor.Level) = {
         if(BuildConfig.DEBUG) {
             HttpLoggingInterceptor.Level.BODY
