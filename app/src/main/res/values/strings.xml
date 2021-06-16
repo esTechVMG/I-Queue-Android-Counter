@@ -1,4 +1,4 @@
-<!DOCTYPE resources [<!ENTITY name "I-Queue Entry">]>
+<!DOCTYPE resources [<!ENTITY name "I-Queue">]>
 <resources>
     <string name="main_name">&name; Inc</string>
     <string name="app_name">&name; Entry</string>
