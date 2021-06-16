@@ -24,7 +24,7 @@ class EntryActivity : AppCompatActivity() {
         sharedPreferencesGson = SharedPreferencesGson(this)
         val commerce = sharedPreferencesGson.getObjectFromSharedPref(IQCommerce::class,getString(R.string.commerce_info_storage))
         val queueString = gson.toJson(commerce.queueInfo)
-        binding.qrImageView.setImageBitmap(textToImage(queueString,200,200))
+        binding.qrImageView.setImageBitmap(textToImage(queueString,1024,1024))
     }
     @Throws(WriterException::class, NullPointerException::class)
     private fun textToImage(text: String, width: Int, height: Int): Bitmap? {
