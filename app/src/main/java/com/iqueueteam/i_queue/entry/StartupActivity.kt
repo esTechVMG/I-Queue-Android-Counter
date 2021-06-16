@@ -12,6 +12,7 @@ class StartupActivity : AppCompatActivity() {
     lateinit var sharedPreferencesGson:SharedPreferencesGson
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(getString(R.string.app_name), "Build Type: ${BuildConfig.BUILD_TYPE}")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_startup)
         checkStorage()

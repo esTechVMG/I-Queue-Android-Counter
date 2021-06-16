@@ -28,7 +28,6 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var alertDialogBuilder:AlertDialog.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(getString(R.string.app_name), "Build Type: ${BuildConfig.BUILD_TYPE}")
 
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
