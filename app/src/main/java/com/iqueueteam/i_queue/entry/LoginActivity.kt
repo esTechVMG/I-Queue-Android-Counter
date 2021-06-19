@@ -62,7 +62,6 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                                     baseContext,
                                     onSuccess = {commerce ->
                                         sharedPreferencesGson.setObjectToSharedPref(commerce,baseContext.getString(R.string.commerce_info_storage))
-                                        //TODO Go back to startup activity
                                         finish()
                                     },
                                     onFailure = {
