@@ -48,7 +48,7 @@ class EntryActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         binding.sendButtonMailEntry.setOnClickListener {
 
             if (mAwesomeValidation.validate()){
-                GlobalScope.launch(Dispatchers.IO){
+                launch(Dispatchers.IO){
                     iqUser.token?.let { it1 ->
                         entrymail(
                             email=binding.inputEmail.text.toString(),
@@ -59,16 +59,10 @@ class EntryActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                                 //We don t do anything on failure
                             },
                             onSuccess = {
-
-                            },
-                            onSent = {
-
-
-                               // launch(){
-                               //     binding.inputEmail.text?.clear()
-                               // }
+                                launch(Dispatchers.Main) {
+                                    binding.inputEmail.text?.clear()
+                                }
                             }
-
                             )
                     }
                 }

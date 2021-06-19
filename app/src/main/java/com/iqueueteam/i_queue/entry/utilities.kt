@@ -57,7 +57,6 @@ suspend fun entrymail(
     token:String,
     onFailure:()->Unit,
     onSuccess:()->Unit,
-    onSent:()->Unit,
 ){
     withContext(Dispatchers.IO) {
         IQueueAdapter.token = token
@@ -68,15 +67,12 @@ suspend fun entrymail(
             when (true){
 
                 body.code in 200..299 -> {
-                    onSent()
                     Log.d("Request","Request Code:${body.code}")
                     val user: IQEntryMail = body.data ?: throw Exception("Failed to retrieve user from login Request")
                     onSuccess()
-                    onSent()
                 }
                 else -> {
                     onFailure()
-                    onSent()
                 }
             }
         } catch (e: Exception){
