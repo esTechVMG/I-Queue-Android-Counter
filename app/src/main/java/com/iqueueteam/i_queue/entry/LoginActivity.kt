@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                                         finish()
                                     },
                                     onFailure = {
-                                        launch(Dispatchers.Main) {
+                                        runOnUiThread {
                                             alertDialogBuilder
                                                 .setTitle(R.string.error_title)
                                                 .setMessage(R.string.error_connecting_server)
@@ -79,12 +79,14 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                             }
                         },
                         onUserNotAdmin = {
-                            alertDialogBuilder
-                                .setTitle(R.string.error_title)
-                                .setMessage(R.string.user_not_admin)
-                                .setNeutralButton(R.string.button_accept,null)
-                                .setCancelable(true)
-                                .create().show()
+                            runOnUiThread {
+                                alertDialogBuilder
+                                    .setTitle(R.string.error_title)
+                                    .setMessage(R.string.user_not_admin)
+                                    .setNeutralButton(R.string.button_accept,null)
+                                    .setCancelable(true)
+                                    .create().show()
+                            }
                         }
                     )
                 }

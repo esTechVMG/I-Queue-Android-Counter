@@ -56,7 +56,7 @@ class EntryActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                             context = baseContext,
                             token= it1,
                             onFailure = {
-                                launch(Main) {
+                                runOnUiThread {
                                     alertDialogBuilder
                                         .setTitle(R.string.error_title)
                                         .setMessage(getString(R.string.error_connecting_server))
@@ -67,7 +67,7 @@ class EntryActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                                 }
                             },
                             onSuccess = {
-                                launch(Main) {
+                                runOnUiThread {
                                     binding.inputEmail.text?.clear()
                                 }
                             }
