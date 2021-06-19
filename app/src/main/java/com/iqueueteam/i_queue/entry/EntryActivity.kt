@@ -56,16 +56,18 @@ class EntryActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                             context = baseContext,
                             token= it1,
                             onFailure = {
-                                alertDialogBuilder
-                                    .setTitle(R.string.error_title)
-                                    .setMessage(getString(R.string.error_connecting_server))
-                                    .setNeutralButton(R.string.button_accept,null)
-                                    .setCancelable(false)
-                                    .create().show()
-                                binding.inputEmail.text?.clear()
+                                launch(Main) {
+                                    alertDialogBuilder
+                                        .setTitle(R.string.error_title)
+                                        .setMessage(getString(R.string.error_connecting_server))
+                                        .setNeutralButton(R.string.button_accept,null)
+                                        .setCancelable(false)
+                                        .create().show()
+                                    binding.inputEmail.text?.clear()
+                                }
                             },
                             onSuccess = {
-                                launch(Dispatchers.Main) {
+                                launch(Main) {
                                     binding.inputEmail.text?.clear()
                                 }
                             }
