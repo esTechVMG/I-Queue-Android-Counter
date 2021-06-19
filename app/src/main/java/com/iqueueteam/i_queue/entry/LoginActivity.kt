@@ -20,6 +20,7 @@ import com.iqueueteam.i_queue.entry.iqueue.repository.IQueueAdapter
 import com.iqueueteam.i_queue.entry.iqueue.repository.IQueueAdapter.apiClient
 import com.iqueueteam.i_queue.entry.iqueue.repository.LoginUser
 import kotlinx.coroutines.*
+import okhttp3.Dispatcher
 
 class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var binding: ActivityLoginBinding
@@ -54,7 +55,7 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                             //We don t do anything on failure
                         },
                         onUserAdmin = {
-                            launch {
+                            launch(Dispatchers.Main) {
                                 sharedPreferencesGson.setObjectToSharedPref(it,baseContext.getString(R.string.user_info_storage))
                                 Log.d(baseContext.getString(R.string.app_name),"User Logged In successfully")
                                 retrieveCommerce(
@@ -65,12 +66,14 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                                         finish()
                                     },
                                     onFailure = {
-                                        alertDialogBuilder
-                                            .setTitle(R.string.error_title)
-                                            .setMessage(R.string.error_connecting_server)
-                                            .setNeutralButton(R.string.button_accept,null)
-                                            .setCancelable(true)
-                                            .create().show()
+                                        launch(Dispatchers.Main) {
+                                            alertDialogBuilder
+                                                .setTitle(R.string.error_title)
+                                                .setMessage(R.string.error_connecting_server)
+                                                .setNeutralButton(R.string.button_accept,null)
+                                                .setCancelable(true)
+                                                .create().show()
+                                        }
                                     }
                                 )
                             }
