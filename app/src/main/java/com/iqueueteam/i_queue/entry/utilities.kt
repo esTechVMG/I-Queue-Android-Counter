@@ -11,11 +11,9 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import com.iqueueteam.i_queue.entry.config_storage.SharedPreferencesGson
-import com.iqueueteam.i_queue.entry.iqueue.models.IQCommerce
-import com.iqueueteam.i_queue.entry.iqueue.models.IQResponse
-import com.iqueueteam.i_queue.entry.iqueue.models.IQUser
-import com.iqueueteam.i_queue.entry.iqueue.models.IQValidationError
+import com.iqueueteam.i_queue.entry.iqueue.models.*
 import com.iqueueteam.i_queue.entry.iqueue.repository.IQueueAdapter
+import com.iqueueteam.i_queue.entry.iqueue.repository.IqueueEntryMail
 import com.iqueueteam.i_queue.entry.iqueue.repository.LoginUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -45,6 +43,40 @@ suspend fun login(
                 }
                 else -> {
                     onFailure()
+                }
+            }
+        } catch (e: Exception){
+            toastError(e,context)
+        }
+    }
+}
+suspend fun entrymail(
+    email:String,
+    queue_id:Int,
+    context: Context,
+    token:String,
+    onFailure:()->Unit,
+    onSuccess:()->Unit,
+    onSent:()->Unit,
+){
+    withContext(Dispatchers.IO) {
+        IQueueAdapter.token = token
+        // Try catch block to handle exceptions when calling the API.
+        try {
+            val response = IQueueAdapter.apiClient.doentrymail(IqueueEntryMail(email,queue_id ))
+            val body: IQResponse<IQEntryMail?, IQValidationError?> = IQueueAdapter.getResponse(response) ?: throw Exception(context.getString(R.string.error_connecting_server))
+            when (true){
+
+                body.code in 200..299 -> {
+                    onSent()
+                    Log.d("Request","Request Code:${body.code}")
+                    val user: IQEntryMail = body.data ?: throw Exception("Failed to retrieve user from login Request")
+                    onSuccess()
+                    onSent()
+                }
+                else -> {
+                    onFailure()
+                    onSent()
                 }
             }
         } catch (e: Exception){

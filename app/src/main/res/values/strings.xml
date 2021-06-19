@@ -9,7 +9,7 @@
     <string name="email_hint">E-Mail de Administrador</string>
     <string name="password_hint">Contraseña</string>
     <string name="button_accept">Aceptar</string>
-    <string name="client_welcome">Bienvenido. Escanea el QR con la App</string>
+    <string name="client_welcome">Bienvenido. Escanea el QR con la App o Introduce tu Email</string>
     <string name="qr_description">Imagen QR</string>
     <!-- Errors -->
     <string name="invalid_email">"Por favor introduce un email válido"</string>
