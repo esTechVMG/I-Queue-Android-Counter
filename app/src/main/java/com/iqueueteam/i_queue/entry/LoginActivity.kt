@@ -65,13 +65,23 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                                         finish()
                                     },
                                     onFailure = {
-                                        //We don t do anything on failure
+                                        alertDialogBuilder
+                                            .setTitle(R.string.error_title)
+                                            .setMessage(R.string.error_connecting_server)
+                                            .setNeutralButton(R.string.button_accept,null)
+                                            .setCancelable(true)
+                                            .create().show()
                                     }
                                 )
                             }
                         },
                         onUserNotAdmin = {
-                            //We don t do anything on failure
+                            alertDialogBuilder
+                                .setTitle(R.string.error_title)
+                                .setMessage(R.string.user_not_admin)
+                                .setNeutralButton(R.string.button_accept,null)
+                                .setCancelable(true)
+                                .create().show()
                         }
                     )
                 }
