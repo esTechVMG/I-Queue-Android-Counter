@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/primaryDarkColor"
     android:orientation="horizontal"
-    android:theme="@style/Theme.AppCompat.DayNight"
     tools:context=".EntryActivity">
 
     <TextView
