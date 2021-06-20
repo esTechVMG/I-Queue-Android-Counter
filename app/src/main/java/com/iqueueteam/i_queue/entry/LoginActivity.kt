@@ -1,10 +1,9 @@
 package com.iqueueteam.i_queue.entry
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.view.ContextThemeWrapper
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.util.PatternsCompat
@@ -12,15 +11,7 @@ import com.basgeekball.awesomevalidation.AwesomeValidation
 import com.basgeekball.awesomevalidation.ValidationStyle
 import com.iqueueteam.i_queue.entry.config_storage.SharedPreferencesGson
 import com.iqueueteam.i_queue.entry.databinding.ActivityLoginBinding
-import com.iqueueteam.i_queue.entry.iqueue.models.IQCommerce
-import com.iqueueteam.i_queue.entry.iqueue.models.IQResponse
-import com.iqueueteam.i_queue.entry.iqueue.models.IQUser
-import com.iqueueteam.i_queue.entry.iqueue.models.IQValidationError
-import com.iqueueteam.i_queue.entry.iqueue.repository.IQueueAdapter
-import com.iqueueteam.i_queue.entry.iqueue.repository.IQueueAdapter.apiClient
-import com.iqueueteam.i_queue.entry.iqueue.repository.LoginUser
 import kotlinx.coroutines.*
-import okhttp3.Dispatcher
 
 class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var binding: ActivityLoginBinding
@@ -41,8 +32,10 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             return@addValidation input.length >= 4
         },getString(R.string.password_length))
         //late initialization
+
+        val wrappedContext: Context = ContextThemeWrapper(this@LoginActivity, R.style.Theme_IQueueEntry)
         sharedPreferencesGson = SharedPreferencesGson(baseContext)
-        alertDialogBuilder = AlertDialog.Builder(baseContext)
+        alertDialogBuilder = AlertDialog.Builder(wrappedContext)
 
         binding.sendButton.setOnClickListener {
             if (mAwesomeValidation.validate()){
